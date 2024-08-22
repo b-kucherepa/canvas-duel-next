@@ -21,20 +21,20 @@
 }
 
 .menu {
-  justify-content: space-evenly;
   background-color: var(--background-color);
   border-radius: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: 70%;
-  padding: 2rem;
+  justify-content: space-evenly;
   margin: auto;
+  max-width: 49%;
+  padding: 2rem;
   position: relative;
   top: 15%;
   transition: 0.5s;
   width: 30rem;
-  max-width: 49%;
   z-index: 10;
 }
 
@@ -66,8 +66,8 @@
   font-weight: lighter;
   grid-column: span 3;
   line-height: 0;
-  margin: 1rem auto;
   margin-top: 3rem;
+  margin: 1rem auto;
   padding: 0;
   text-align: center;
   transition: 0.5s;

@@ -45,16 +45,16 @@ export default class Scene {
     this._animationFrameId = this.start();
   }
 
-  public registerRenderedObject(...objects: AnimatedObject[]) {
+  public addRenderedObject(...objects: AnimatedObject[]) {
     this._renderedObjects.push(...objects);
   }
 
-  public forgetRenderedObject(...objects: AnimatedObject[]) {
+  public removeRenderedObject(...objects: AnimatedObject[]) {
     for (let o of objects) {
-      const indexToForget = this._renderedObjects.findIndex(
+      const indexToRemove = this._renderedObjects.findIndex(
         (renderedObject) => renderedObject === o
       );
-      this._renderedObjects.splice(indexToForget, 1);
+      this._renderedObjects.splice(indexToRemove, 1);
     }
   }
 
@@ -110,7 +110,7 @@ export default class Scene {
       DEFAULT_ENEMY_SHOT_COLOR,
       characterRadius
     );
-    this.registerRenderedObject(player, enemy);
+    this.addRenderedObject(player, enemy);
     return [player, enemy];
   }
 
@@ -127,7 +127,7 @@ export default class Scene {
     let updatedPrevTime: number;
     if (deltaTime >= this._fpsInterval) {
       updatedPrevTime = timeStamp - (deltaTime % this._fpsInterval);
-      this.calculateBulletCollision();
+      this.handleBulletCollision();
       this.renderFrame();
     }
 
@@ -152,18 +152,11 @@ export default class Scene {
     }
   }
 
-  private calculateBulletCollision() {
+  private handleBulletCollision() {
     for (let o of this._renderedObjects) {
       if (o instanceof Bullet) {
         if (o.owner !== this.player) {
-          const isPlayerHit = this.calculateCollision(
-            this.player.radius,
-            this.player.posX,
-            this.player.posY,
-            o.radius,
-            o.posX,
-            o.posY
-          );
+          const isPlayerHit = this.calculateCollision(o, this.player);
 
           if (isPlayerHit) {
             this.enemy.countHit();
@@ -173,14 +166,7 @@ export default class Scene {
         }
 
         if (o.owner !== this.enemy) {
-          const isEnemyHit = this.calculateCollision(
-            this.enemy.radius,
-            this.enemy.posX,
-            this.enemy.posY,
-            o.radius,
-            o.posX,
-            o.posY
-          );
+          const isEnemyHit = this.calculateCollision(o, this.enemy);
 
           if (isEnemyHit) {
             this.player.countHit();
@@ -192,21 +178,14 @@ export default class Scene {
     }
   }
 
-  private calculateCollision(
-    radiusA: number,
-    posXA: number,
-    posYA: number,
-    radiusB: number,
-    posXB: number,
-    posYB: number
-  ) {
-    const deltaX: number = posXA - posXB;
-    const deltaY: number = posYA - posYB;
+  private calculateCollision(objectA: AnimatedObject, objectB: AnimatedObject) {
+    const deltaX: number = objectA.posX - objectB.posX;
+    const deltaY: number = objectA.posY - objectB.posY;
     const distance: number = Math.sqrt(
       Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
     );
 
-    return distance < radiusA + radiusB;
+    return distance < objectA.radius + objectB.radius;
   }
 
   private handleMouseMove(event: MouseEvent) {

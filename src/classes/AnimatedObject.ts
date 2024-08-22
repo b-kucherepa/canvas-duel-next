@@ -1,9 +1,9 @@
 import Scene from "@/classes/Scene";
 
 export abstract class AnimatedObject {
-  public speed: number;
   public posX: number;
   public posY: number;
+  public speed: number;
   public color: string;
   public radius: number;
   protected _scene: Scene;
@@ -21,12 +21,12 @@ export abstract class AnimatedObject {
     this._scene = scene;
     this.posX = posX;
     this.posY = posY;
+    this._direction = direction;
     this.speed = speed;
     this.color = color;
     this.radius = radius;
-    this._direction = direction;
 
-    scene.registerRenderedObject(this);
+    scene.addRenderedObject(this);
   }
 
   public abstract update(): void;
@@ -34,6 +34,8 @@ export abstract class AnimatedObject {
   public abstract render(context: CanvasRenderingContext2D): void;
 
   protected abstract destroy(): void;
+
+  protected abstract handleOutOfBoundaries(): void;
 
   protected move() {
     switch (this._direction) {

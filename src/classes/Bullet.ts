@@ -21,7 +21,7 @@ export default class Bullet extends AnimatedObject {
 
   public update(): void {
     this.move();
-    this.checkBorderCollision();
+    this.handleOutOfBoundaries();
   }
 
   public render(context: CanvasRenderingContext2D): void {
@@ -35,7 +35,11 @@ export default class Bullet extends AnimatedObject {
     this.destroy();
   }
 
-  protected checkBorderCollision() {
+  protected destroy() {
+    this._scene.removeRenderedObject(this);
+  }
+
+  protected handleOutOfBoundaries() {
     const halfWidth = this.radius;
     const isOutOfLeft = this.posX + halfWidth < 0;
     const isOutOfRight = this.posX - halfWidth > this._scene.width;
@@ -43,9 +47,5 @@ export default class Bullet extends AnimatedObject {
     if (isOutOfLeft || isOutOfRight) {
       this.destroy();
     }
-  }
-
-  protected destroy() {
-    this._scene.forgetRenderedObject(this);
   }
 }

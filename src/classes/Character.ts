@@ -5,8 +5,8 @@ import { BACKGROUND_COLOR } from "@/data/const";
 
 export default class Character extends AnimatedObject {
   public fireRate: number;
-  public shotColor: string;
   public shotSpeed: number;
+  public shotColor: string;
   public isMenuOpened: boolean = false;
   private _shotDirection: number;
   private _shotReadiness: number = 0;
@@ -35,8 +35,8 @@ export default class Character extends AnimatedObject {
 
   public update() {
     this.move();
-    this.checkBorderCollision();
-    this.checkMouseCollision();
+    this.handleOutOfBoundaries();
+    this.handleMouseCollision();
     this.shoot();
   }
 
@@ -48,7 +48,7 @@ export default class Character extends AnimatedObject {
     context.fillStyle = BACKGROUND_COLOR;
     context.textAlign = "center";
     context.textBaseline = "middle";
-    context.font = this.radius / 2 + "px serif";
+    context.font = this.radius + "px serif";
     context.fillText(
       this._score.toString(),
       this.posX,
@@ -91,10 +91,10 @@ export default class Character extends AnimatedObject {
   }
 
   protected destroy() {
-    this._scene.forgetRenderedObject(this);
+    this._scene.removeRenderedObject(this);
   }
 
-  protected checkBorderCollision() {
+  protected handleOutOfBoundaries() {
     const halfHeight = this.radius;
     const isOutOfTop = this.posY - halfHeight < 0;
     const isOutOfBottom = this.posY + halfHeight > this._scene.height;
@@ -112,7 +112,7 @@ export default class Character extends AnimatedObject {
     }
   }
 
-  protected checkMouseCollision() {
+  protected handleMouseCollision() {
     const deltaX: number = this.posX - this._scene.mouseX;
     const deltaY: number = this.posY - this._scene.mouseY;
     const distance: number = Math.sqrt(
@@ -165,8 +165,6 @@ export default class Character extends AnimatedObject {
 
     if (distance < this.radius * 2) {
       this.openMenu();
-    } else {
-      //this.closeMenu();
     }
   }
 }

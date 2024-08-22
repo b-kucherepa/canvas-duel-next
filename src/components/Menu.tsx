@@ -43,6 +43,7 @@ export default function Menu(props: Props) {
 
   return (
     <div className="menu" style={{ display: isVisible ? "flex" : "none" }}>
+      <h1>Options</h1>
       <label className="menu-item">
         Character color:
         <input
@@ -51,6 +52,7 @@ export default function Menu(props: Props) {
           onChange={handleColorChange}
         ></input>
       </label>
+
       <label className="menu-item">
         Shot color:
         <input
@@ -59,6 +61,7 @@ export default function Menu(props: Props) {
           onChange={handleShotColorChange}
         ></input>
       </label>
+
       <label className="menu-item">
         Character speed:
         <input
@@ -70,6 +73,7 @@ export default function Menu(props: Props) {
           onChange={handleCharacterSpeedChange}
         ></input>
       </label>
+
       <label className="menu-item">
         Fire rate:
         <input
@@ -81,6 +85,7 @@ export default function Menu(props: Props) {
           onChange={handleFireRateChange}
         ></input>
       </label>
+
       <label className="menu-item">
         Shot speed:
         <input
@@ -92,6 +97,7 @@ export default function Menu(props: Props) {
           onChange={handleShotSpeedChange}
         ></input>
       </label>
+
       <button
         type="button"
         className="btn-menu-close"
