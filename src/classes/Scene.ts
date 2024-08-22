@@ -155,33 +155,38 @@ export default class Scene {
   private calculateBulletCollision() {
     for (let o of this._renderedObjects) {
       if (o instanceof Bullet) {
-        const isPlayerHit = this.calculateCollision(
-          this.player.radius,
-          this.player.posX,
-          this.player.posY,
-          o.radius,
-          o.posX,
-          o.posY
-        );
-        const isEnemyHit = this.calculateCollision(
-          this.enemy.radius,
-          this.enemy.posX,
-          this.enemy.posY,
-          o.radius,
-          o.posX,
-          o.posY
-        );
+        if (o.owner !== this.player) {
+          const isPlayerHit = this.calculateCollision(
+            this.player.radius,
+            this.player.posX,
+            this.player.posY,
+            o.radius,
+            o.posX,
+            o.posY
+          );
 
-        if (isPlayerHit) {
-          this.enemy.countHit();
-          o.hitCharacter();
-          return;
+          if (isPlayerHit) {
+            this.enemy.countHit();
+            o.hitCharacter();
+            return;
+          }
         }
 
-        if (isEnemyHit) {
-          this.player.countHit();
-          o.hitCharacter();
-          return;
+        if (o.owner !== this.enemy) {
+          const isEnemyHit = this.calculateCollision(
+            this.enemy.radius,
+            this.enemy.posX,
+            this.enemy.posY,
+            o.radius,
+            o.posX,
+            o.posY
+          );
+
+          if (isEnemyHit) {
+            this.player.countHit();
+            o.hitCharacter();
+            return;
+          }
         }
       }
     }
