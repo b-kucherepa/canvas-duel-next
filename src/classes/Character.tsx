@@ -1,6 +1,7 @@
 import Bullet from "./Bullet";
 import Canvas from "@/classes/Scene";
 import AnimatedObject from "./AnimatedObject";
+import { BACKGROUND_COLOR } from "@/data/const";
 
 export default class Character extends AnimatedObject {
   public fireRate: number;
@@ -9,6 +10,7 @@ export default class Character extends AnimatedObject {
   public isMenuOpened: boolean = false;
   private _shotDirection: number;
   private _shotReadiness: number = 0;
+  private _score: number = 0;
 
   constructor(
     scene: Canvas,
@@ -40,9 +42,19 @@ export default class Character extends AnimatedObject {
 
   public render(context: CanvasRenderingContext2D) {
     context.beginPath();
-    context.arc(this.posX, this.posY, this._radius, 0, 2 * Math.PI);
+    context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
     context.fillStyle = this.color;
     context.fill();
+    context.fillStyle = BACKGROUND_COLOR;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.font = this.radius / 2 + "px serif";
+    context.fillText(
+      this._score.toString(),
+      this.posX,
+      this.posY,
+      this.radius * 2
+    );
   }
 
   public openMenu() {
@@ -69,9 +81,13 @@ export default class Character extends AnimatedObject {
         this.shotColor,
         this.shotSpeed,
         this._shotDirection,
-        this._radius / 5
+        this.radius / 5
       );
     }
+  }
+
+  public countHit() {
+    this._score++;
   }
 
   protected destroy() {
@@ -79,7 +95,7 @@ export default class Character extends AnimatedObject {
   }
 
   protected checkBorderCollision() {
-    const halfHeight = this._radius;
+    const halfHeight = this.radius;
     const isOutOfTop = this.posY - halfHeight < 0;
     const isOutOfBottom = this.posY + halfHeight > this._scene.height;
 
@@ -103,7 +119,7 @@ export default class Character extends AnimatedObject {
       Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
     );
 
-    if (this._radius * 0.5 < distance && distance < this._radius * 1.1) {
+    if (this.radius * 0.5 < distance && distance < this.radius * 1.1) {
       if (this._scene.mouseY < this.posY) {
         this._direction = Character.Direction.Down;
       }
@@ -119,18 +135,18 @@ export default class Character extends AnimatedObject {
     switch (this._shotDirection) {
       case AnimatedObject.Direction.Up:
         x = this.posX;
-        y = this.posY - this._radius;
+        y = this.posY - this.radius;
         break;
       case AnimatedObject.Direction.Down:
         x = this.posX;
-        y = this.posY + this._radius;
+        y = this.posY + this.radius;
         break;
       case AnimatedObject.Direction.Left:
-        x = this.posX - this._radius;
+        x = this.posX - this.radius;
         y = this.posY;
         break;
       case AnimatedObject.Direction.Right:
-        x = this.posX + this._radius;
+        x = this.posX + this.radius;
         y = this.posY;
         break;
       default:
@@ -147,7 +163,7 @@ export default class Character extends AnimatedObject {
       Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
     );
 
-    if (distance < this._radius * 2) {
+    if (distance < this.radius * 2) {
       this.openMenu();
     } else {
       //this.closeMenu();

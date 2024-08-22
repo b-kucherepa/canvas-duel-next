@@ -10,6 +10,7 @@ import {
   DEFAULT_HERO_SHOT_COLOR,
   DEFAULT_SHOT_SPEED,
 } from "@/data/const";
+import Bullet from "./Bullet";
 
 export default class Scene {
   public canvas: HTMLCanvasElement;
@@ -84,7 +85,7 @@ export default class Scene {
 
     const player = new Character(
       this,
-      characterRadius,
+      characterRadius * 2,
       screenHeightCenter,
       Character.Direction.Up,
       DEFAULT_CHARACTER_SPEED,
@@ -98,7 +99,7 @@ export default class Scene {
 
     const enemy = new Character(
       this,
-      this.width - characterRadius,
+      this.width - characterRadius * 2,
       screenHeightCenter,
       Character.Direction.Down,
       DEFAULT_CHARACTER_SPEED,
@@ -126,6 +127,7 @@ export default class Scene {
     let updatedPrevTime: number;
     if (deltaTime >= this._fpsInterval) {
       updatedPrevTime = timeStamp - (deltaTime % this._fpsInterval);
+      this.calculateBulletCollision();
       this.renderFrame();
     }
 
@@ -148,6 +150,58 @@ export default class Scene {
         }
       }
     }
+  }
+
+  private calculateBulletCollision() {
+    for (let o of this._renderedObjects) {
+      if (o instanceof Bullet) {
+        const isPlayerHit = this.calculateCollision(
+          this.player.radius,
+          this.player.posX,
+          this.player.posY,
+          o.radius,
+          o.posX,
+          o.posY
+        );
+        const isEnemyHit = this.calculateCollision(
+          this.enemy.radius,
+          this.enemy.posX,
+          this.enemy.posY,
+          o.radius,
+          o.posX,
+          o.posY
+        );
+
+        if (isPlayerHit) {
+          this.enemy.countHit();
+          o.hitCharacter();
+          return;
+        }
+
+        if (isEnemyHit) {
+          this.player.countHit();
+          o.hitCharacter();
+          return;
+        }
+      }
+    }
+  }
+
+  private calculateCollision(
+    radiusA: number,
+    posXA: number,
+    posYA: number,
+    radiusB: number,
+    posXB: number,
+    posYB: number
+  ) {
+    const deltaX: number = posXA - posXB;
+    const deltaY: number = posYA - posYB;
+    const distance: number = Math.sqrt(
+      Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
+    );
+
+    return distance < radiusA + radiusB;
   }
 
   private handleMouseMove(event: MouseEvent) {

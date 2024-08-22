@@ -1,7 +1,7 @@
 "use client";
 
 import useScene from "@/hooks/useScene";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { useRef } from "react";
 import Menu from "./Menu";
 

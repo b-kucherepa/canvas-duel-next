@@ -87,7 +87,7 @@ export default function Menu(props: Props) {
           type="range"
           defaultValue={props.character.shotSpeed}
           min={1}
-          max={240}
+          max={100}
           step={1}
           onChange={handleShotSpeedChange}
         ></input>

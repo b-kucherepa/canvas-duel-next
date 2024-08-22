@@ -5,9 +5,9 @@ export abstract class AnimatedObject {
   public posX: number;
   public posY: number;
   public color: string;
+  public radius: number;
   protected _scene: Canvas;
   protected _direction: number;
-  protected _radius: number;
 
   constructor(
     scene: Canvas,
@@ -21,10 +21,10 @@ export abstract class AnimatedObject {
     this._scene = scene;
     this.posX = posX;
     this.posY = posY;
-    this._direction = direction;
     this.speed = speed;
     this.color = color;
-    this._radius = radius;
+    this.radius = radius;
+    this._direction = direction;
 
     scene.registerRenderedObject(this);
   }

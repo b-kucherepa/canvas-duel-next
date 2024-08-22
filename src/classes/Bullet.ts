@@ -26,13 +26,17 @@ export default class Bullet extends AnimatedObject {
 
   public render(context: CanvasRenderingContext2D): void {
     context.beginPath();
-    context.arc(this.posX, this.posY, this._radius, 0, 2 * Math.PI);
+    context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
     context.fillStyle = this.color;
     context.fill();
   }
 
+  public hitCharacter() {
+    this.destroy();
+  }
+
   protected checkBorderCollision() {
-    const halfWidth = this._radius;
+    const halfWidth = this.radius;
     const isOutOfLeft = this.posX + halfWidth < 0;
     const isOutOfRight = this.posX - halfWidth > this._scene.width;
 
