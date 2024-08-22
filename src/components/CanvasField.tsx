@@ -10,12 +10,12 @@ export default function CanvasField() {
   const scene = useScene();
 
   useEffect(() => {
-    scene.canvas.className = "fullscreen-canvas";
+    scene.canvas.className = "scene-canvas";
     containerRef?.current?.appendChild(scene.canvas);
   }, []);
 
   return (
-    <div ref={containerRef}>
+    <div className="canvas-container" ref={containerRef}>
       <Menu character={scene.player}></Menu>
       <Menu character={scene.enemy}></Menu>
     </div>

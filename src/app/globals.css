@@ -1,10 +1,10 @@
 :root {
   --foreground-color: #000000;
-  --background-color: lightskyblue;
+  --background-color: #bbddff;
   --selected-color: #888888;
 }
 
-.fullscreen-canvas {
+.scene-canvas {
   background-size: contain;
   height: 100%;
   left: 0;
@@ -12,6 +12,12 @@
   top: 0;
   width: 100%;
   z-index: 5;
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2%;
 }
 
 .menu {
@@ -22,13 +28,13 @@
   display: flex;
   flex-direction: column;
   height: 70%;
-  padding: 4rem;
+  padding: 2rem;
   margin: auto;
   position: relative;
   top: 15%;
   transition: 0.5s;
-  width: 100%;
-  max-width: 30rem;
+  width: 30rem;
+  max-width: 49%;
   z-index: 10;
 }
 
@@ -41,12 +47,12 @@
   display: flex;
   flex-direction: row;
   font-size: 1rem;
-  gap: 2rem;
   height: min-content;
   justify-content: space-between;
-  padding: 1rem;
   margin: 0;
-  text-align: center;
+  min-width: 0;
+  padding: 1rem;
+  text-align: left;
   text-overflow: ellipsis;
   transition: 0.2s;
   width: 100%;
@@ -56,12 +62,12 @@
   background-color: transparent;
   border-style: none;
   color: var(--foreground-color);
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: lighter;
   grid-column: span 3;
   line-height: 0;
-  margin: 2rem auto;
-  margin-top: 5rem;
+  margin: 1rem auto;
+  margin-top: 3rem;
   padding: 0;
   text-align: center;
   transition: 0.5s;
@@ -69,11 +75,14 @@
 }
 
 input[type="color"] {
-  width: 8rem;
-  height: 2rem;
+  background: none;
+  border: none;
+  height: 1.5rem;
+  padding: 0;
+  width: 6rem;
 }
 
 input[type="range"] {
-  width: 8rem;
-  height: 2rem;
+  height: 1rem;
+  width: 6rem;
 }

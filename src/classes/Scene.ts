@@ -65,7 +65,11 @@ export default class Scene {
   }
 
   public start(): number {
-    if (this.isPaused) {
+    if (
+      this.isPaused &&
+      !this.player.isMenuOpened &&
+      !this.enemy.isMenuOpened
+    ) {
       this.isPaused = false;
       return (this._animationFrameId = requestAnimationFrame((timeStamp) =>
         this.tickFrame(timeStamp, 0)
