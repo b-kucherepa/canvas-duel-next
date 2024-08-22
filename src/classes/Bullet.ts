@@ -13,10 +13,9 @@ export default class Bullet extends AnimatedObject {
     color: string,
     speed: number,
     direction: number,
-    width: number,
-    height?: number
+    radius: number
   ) {
-    super(canvas, posX, posY, direction, speed, color, width);
+    super(canvas, posX, posY, direction, speed, color, radius);
     this.owner = owner;
   }
 
@@ -27,13 +26,13 @@ export default class Bullet extends AnimatedObject {
 
   public render(context: CanvasRenderingContext2D): void {
     context.beginPath();
-    context.arc(this.posX, this.posY, this._width / 2, 0, 2 * Math.PI);
-    context.fillStyle = this._color;
+    context.arc(this.posX, this.posY, this._radius, 0, 2 * Math.PI);
+    context.fillStyle = this.color;
     context.fill();
   }
 
   protected checkBorderCollision() {
-    const halfWidth = this._width / 2;
+    const halfWidth = this._radius;
     const isOutOfLeft = this.posX + halfWidth < 0;
     const isOutOfRight = this.posX - halfWidth > this._scene.width;
 

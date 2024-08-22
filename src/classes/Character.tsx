@@ -2,11 +2,10 @@ import Bullet from "./Bullet";
 import Canvas from "@/classes/Scene";
 import AnimatedObject from "./AnimatedObject";
 
-import Menu from "../components/Menu";
-
 export default class Character extends AnimatedObject {
   public fireRate: number;
   public shotColor: string;
+  public shotSpeed: number;
   public isMenuOpened: boolean = false;
   private _shotDirection: number;
   private _shotReadiness: number = 0;
@@ -20,13 +19,14 @@ export default class Character extends AnimatedObject {
     color: string,
     shotDirection: number,
     fireRate: number,
+    shotSpeed: number,
     shotColor: string,
-    width: number,
-    height?: number
+    radius: number
   ) {
-    super(scene, posX, posY, direction, speed, color, width);
+    super(scene, posX, posY, direction, speed, color, radius);
     this._shotDirection = shotDirection;
     this.fireRate = fireRate;
+    this.shotSpeed = shotSpeed;
     this.shotColor = shotColor;
     window.addEventListener("click", () => this.handleClick());
   }
@@ -40,8 +40,8 @@ export default class Character extends AnimatedObject {
 
   public render(context: CanvasRenderingContext2D) {
     context.beginPath();
-    context.arc(this.posX, this.posY, this._width / 2, 0, 2 * Math.PI);
-    context.fillStyle = this._color;
+    context.arc(this.posX, this.posY, this._radius, 0, 2 * Math.PI);
+    context.fillStyle = this.color;
     context.fill();
   }
 
@@ -67,15 +67,19 @@ export default class Character extends AnimatedObject {
         bulletX,
         bulletY,
         this.shotColor,
-        20,
+        this.shotSpeed,
         this._shotDirection,
-        15
+        this._radius / 5
       );
     }
   }
 
+  protected destroy() {
+    this._scene.forgetRenderedObject(this);
+  }
+
   protected checkBorderCollision() {
-    const halfHeight = this._height / 2;
+    const halfHeight = this._radius;
     const isOutOfTop = this.posY - halfHeight < 0;
     const isOutOfBottom = this.posY + halfHeight > this._scene.height;
 
@@ -99,7 +103,7 @@ export default class Character extends AnimatedObject {
       Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
     );
 
-    if (this._height * 0.25 < distance && distance < this._height * 0.6) {
+    if (this._radius * 0.5 < distance && distance < this._radius * 1.1) {
       if (this._scene.mouseY < this.posY) {
         this._direction = Character.Direction.Down;
       }
@@ -110,27 +114,23 @@ export default class Character extends AnimatedObject {
     }
   }
 
-  protected destroy() {
-    this._scene.forgetRenderedObject(this);
-  }
-
   private getBulletSpawnPoint(): number[] {
     let x, y: number;
     switch (this._shotDirection) {
       case AnimatedObject.Direction.Up:
         x = this.posX;
-        y = this.posY - this._height / 2;
+        y = this.posY - this._radius;
         break;
       case AnimatedObject.Direction.Down:
         x = this.posX;
-        y = this.posY + this._height / 2;
+        y = this.posY + this._radius;
         break;
       case AnimatedObject.Direction.Left:
-        x = this.posX - this._width / 2;
+        x = this.posX - this._radius;
         y = this.posY;
         break;
       case AnimatedObject.Direction.Right:
-        x = this.posX + this._width / 2;
+        x = this.posX + this._radius;
         y = this.posY;
         break;
       default:
@@ -147,8 +147,10 @@ export default class Character extends AnimatedObject {
       Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
     );
 
-    if (distance < this._height) {
+    if (distance < this._radius * 2) {
       this.openMenu();
+    } else {
+      //this.closeMenu();
     }
   }
 }

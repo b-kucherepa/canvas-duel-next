@@ -1,34 +1,79 @@
 :root {
   --foreground-color: #000000;
-  --background-color: 255, 255, 255;
+  --background-color: lightskyblue;
   --selected-color: #888888;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-color: #ffffff;
-    --background-color: 0, 0, 0;
-  }
-}
-
-.fullscreenCanvas {
-  top: 0;
+.fullscreen-canvas {
+  background-size: contain;
+  height: 100%;
   left: 0;
   position: absolute;
-  background-size: contain;
+  top: 0;
   width: 100%;
-  height: 100%;
   z-index: 5;
 }
 
 .menu {
-  background-color: azure;
+  justify-content: space-evenly;
+  background-color: var(--background-color);
   border-radius: 10px;
-  margin: auto;
-  position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 70%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   height: 70%;
+  padding: 4rem;
+  margin: auto;
+  position: relative;
+  top: 15%;
+  transition: 0.5s;
+  width: 100%;
+  max-width: 30rem;
   z-index: 10;
+}
+
+.menu-item {
+  align-items: center;
+  background-color: var(--background-color);
+  border-style: none;
+  box-sizing: border-box;
+  color: var(--foreground-color);
+  display: flex;
+  flex-direction: row;
+  font-size: 1rem;
+  gap: 2rem;
+  height: min-content;
+  justify-content: space-between;
+  padding: 1rem;
+  margin: 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  transition: 0.2s;
+  width: 100%;
+}
+
+.btn-menu-close {
+  background-color: transparent;
+  border-style: none;
+  color: var(--foreground-color);
+  font-size: 5rem;
+  font-weight: lighter;
+  grid-column: span 3;
+  line-height: 0;
+  margin: 2rem auto;
+  margin-top: 5rem;
+  padding: 0;
+  text-align: center;
+  transition: 0.5s;
+  width: 100%;
+}
+
+input[type="color"] {
+  width: 8rem;
+  height: 2rem;
+}
+
+input[type="range"] {
+  width: 8rem;
+  height: 2rem;
 }

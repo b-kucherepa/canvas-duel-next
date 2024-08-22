@@ -10,7 +10,7 @@ export default function CanvasField() {
   const scene = useScene();
 
   useEffect(() => {
-    scene.canvas.className = "fullscreenCanvas";
+    scene.canvas.className = "fullscreen-canvas";
     containerRef?.current?.appendChild(scene.canvas);
   }, []);
 

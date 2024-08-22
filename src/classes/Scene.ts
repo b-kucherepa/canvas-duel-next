@@ -1,6 +1,15 @@
 import AnimatedObject from "@/classes/AnimatedObject";
-import { drawImage, fillRectangle } from "../helpers/contextFunctions";
 import Character from "./Character";
+import {
+  BACKGROUND_COLOR,
+  DEFAULT_CHARACTER_SPEED,
+  DEFAULT_ENEMY_COLOR,
+  DEFAULT_ENEMY_SHOT_COLOR,
+  DEFAULT_FIRE_RATE,
+  DEFAULT_HERO_COLOR,
+  DEFAULT_HERO_SHOT_COLOR,
+  DEFAULT_SHOT_SPEED,
+} from "@/data/const";
 
 export default class Scene {
   public canvas: HTMLCanvasElement;
@@ -66,30 +75,35 @@ export default class Scene {
   }
 
   private initPlayers(): Character[] {
+    const characterRadius = this.height / 15;
+    const screenHeightCenter = this.height / 2;
+
     const player = new Character(
       this,
-      100,
-      this.height / 2,
+      characterRadius,
+      screenHeightCenter,
       Character.Direction.Up,
-      5,
-      "white",
+      DEFAULT_CHARACTER_SPEED,
+      DEFAULT_HERO_COLOR,
       Character.Direction.Right,
-      1,
-      "cyan",
-      100
+      DEFAULT_FIRE_RATE,
+      DEFAULT_SHOT_SPEED,
+      DEFAULT_HERO_SHOT_COLOR,
+      characterRadius
     );
 
     const enemy = new Character(
       this,
-      this.width - 100,
-      this.height / 2,
+      this.width - characterRadius,
+      screenHeightCenter,
       Character.Direction.Down,
-      5,
-      "black",
+      DEFAULT_CHARACTER_SPEED,
+      DEFAULT_ENEMY_COLOR,
       Character.Direction.Left,
-      1,
-      "red",
-      100
+      DEFAULT_FIRE_RATE,
+      DEFAULT_SHOT_SPEED,
+      DEFAULT_ENEMY_SHOT_COLOR,
+      characterRadius
     );
     this.registerRenderedObject(player, enemy);
     return [player, enemy];
@@ -120,7 +134,8 @@ export default class Scene {
     this._context.clearRect(0, 0, this.width, this.height);
 
     if (this._context) {
-      fillRectangle.call(this, this._context, "blue", this.width, this.height);
+      this._context.fillStyle = BACKGROUND_COLOR;
+      this._context.fillRect(0, 0, this.width, this.height);
 
       if (this._renderedObjects.length > 0) {
         for (let rObj of this._renderedObjects) {

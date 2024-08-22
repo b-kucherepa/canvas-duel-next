@@ -1,16 +1,13 @@
-import CollisionMask from "./CollisionMask";
 import Canvas from "@/classes/Scene";
 
 export abstract class AnimatedObject {
-  public collisionMask: CollisionMask;
   public speed: number;
   public posX: number;
   public posY: number;
+  public color: string;
   protected _scene: Canvas;
   protected _direction: number;
-  protected _color: string;
-  protected _width: number;
-  protected _height: number;
+  protected _radius: number;
 
   constructor(
     scene: Canvas,
@@ -19,23 +16,15 @@ export abstract class AnimatedObject {
     direction: AnimatedObject.Direction,
     speed: number,
     color: string,
-    width: number,
-    height?: number
+    radius: number
   ) {
-    this.collisionMask = new CollisionMask(
-      CollisionMask.Shape.Oval,
-      posX,
-      posY,
-      width
-    );
     this._scene = scene;
     this.posX = posX;
     this.posY = posY;
     this._direction = direction;
     this.speed = speed;
-    this._color = color;
-    this._width = width;
-    this._height = height ?? width;
+    this.color = color;
+    this._radius = radius;
 
     scene.registerRenderedObject(this);
   }
