@@ -55,7 +55,7 @@ export default function Menu(props: Props) {
         Shot color:
         <input
           type="color"
-          value={props.character.shotColor}
+          defaultValue={props.character.shotColor}
           onChange={handleShotColorChange}
         ></input>
       </label>
