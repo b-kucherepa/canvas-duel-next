@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "make-relative": "node ./makeRelative.mjs",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run make-relative",
     "start": "next start",
     "lint": "next lint"
   },
