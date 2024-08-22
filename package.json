@@ -5,7 +5,7 @@
   "scripts": {
     "make-relative": "node ./makeRelative.mjs",
     "dev": "next dev",
-    "build": "next build && npm run make-relative",
+    "build": "next build && touch ./build/.nojekyll && npm run make-relative",
     "start": "next start",
     "lint": "next lint"
   },
