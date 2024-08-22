@@ -1,5 +1,5 @@
 import Bullet from "./Bullet";
-import Canvas from "@/classes/Scene";
+import Scene from "@/classes/Scene";
 import AnimatedObject from "./AnimatedObject";
 import { BACKGROUND_COLOR } from "@/data/const";
 
@@ -13,7 +13,7 @@ export default class Character extends AnimatedObject {
   private _score: number = 0;
 
   constructor(
-    scene: Canvas,
+    scene: Scene,
     posX: number,
     posY: number,
     direction: number,

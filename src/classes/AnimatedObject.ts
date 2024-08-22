@@ -1,4 +1,4 @@
-import Canvas from "@/classes/Scene";
+import Scene from "@/classes/Scene";
 
 export abstract class AnimatedObject {
   public speed: number;
@@ -6,11 +6,11 @@ export abstract class AnimatedObject {
   public posY: number;
   public color: string;
   public radius: number;
-  protected _scene: Canvas;
+  protected _scene: Scene;
   protected _direction: number;
 
   constructor(
-    scene: Canvas,
+    scene: Scene,
     posX: number,
     posY: number,
     direction: AnimatedObject.Direction,

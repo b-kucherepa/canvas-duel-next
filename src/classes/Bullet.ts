@@ -1,5 +1,5 @@
 import Character from "./Character";
-import Canvas from "./Scene";
+import Scene from "./Scene";
 import AnimatedObject from "./AnimatedObject";
 
 export default class Bullet extends AnimatedObject {
@@ -7,7 +7,7 @@ export default class Bullet extends AnimatedObject {
 
   constructor(
     owner: Character,
-    canvas: Canvas,
+    canvas: Scene,
     posX: number,
     posY: number,
     color: string,
